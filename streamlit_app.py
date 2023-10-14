@@ -118,7 +118,7 @@ if st.session_state['page'] == 'Accueil':
 
     # Affichage d'une image
     st.subheader('Image du jour :')
-    image = Image.open("./images/image.jpg")  # Remplacez par le chemin vers votre image
+    image = Image.open("./image.jpg")  # Remplacez par le chemin vers votre image
     st.image(image, caption='Image du jour', use_column_width=True)
 
     # Affichage des 100 premières décimales de Pi
