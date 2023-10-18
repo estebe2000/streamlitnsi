@@ -4,12 +4,7 @@ from PIL import Image
 import io
 import pandas as pd
 
-# URL de la page Web que vous souhaitez afficher
-url = "https://kitao.github.io/pyxel/wasm/launcher/?run=estebe2000.streamlitnsi.app"
 
-# Récupérer le contenu HTML de la page Web
-response = requests.get(url)
-content = response.text
 
 # Méthode 1: Moyenne des composantes RGB
 def average_grayscale(image):
@@ -234,8 +229,14 @@ elif st.session_state['page'] == 'Infos':
 
     # Description de la bibliothèque Streamlit
     st.subheader('À propos de Streamlit')
-    # Afficher le contenu HTML dans Streamlit
-    st.markdown(content, unsafe_allow_html=True)
+    # URL de la page Web que vous souhaitez afficher
+    url = "https://kitao.github.io/pyxel/wasm/launcher/?run=estebe2000.streamlitnsi.app"
+
+    # Génération de l'élément iframe pour afficher la page Web
+    iframe = f'<iframe src="{url}" width="100%" height="600"></iframe>'
+
+    # Afficher l'iframe dans Streamlit
+    st.markdown(iframe, unsafe_allow_html=True)
     st.markdown("""
     Streamlit est une bibliothèque Python open-source utilisée pour créer des applications web en quelques lignes de code. 
     Elle est particulièrement utile pour les data scientists qui cherchent à transformer leurs notebooks en une application web interactive.
