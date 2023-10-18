@@ -121,7 +121,7 @@ if st.session_state['page'] == 'Accueil':
 
     # Affichage d'un message
     st.subheader('Message du jour :')
-    st.write('Bonjour, bienvenue sur mon site !')
+    st.write('Bonjour, bienvenue sur mon site !!!')
 
     # Affichage d'une image
     st.subheader('Image du jour :')
