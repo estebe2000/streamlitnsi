@@ -1,8 +1,15 @@
-
+import requests
 import streamlit as st
 from PIL import Image
 import io
 import pandas as pd
+
+# URL de la page Web que vous souhaitez afficher
+url = "https://kitao.github.io/pyxel/wasm/launcher/?run=estebe2000.streamlitnsi.app"
+
+# Récupérer le contenu HTML de la page Web
+response = requests.get(url)
+content = response.text
 
 # Méthode 1: Moyenne des composantes RGB
 def average_grayscale(image):
@@ -136,6 +143,8 @@ if st.session_state['page'] == 'Accueil':
         'Ville': ['Paris', 'Lyon', 'Marseille']
     })
     st.table(df)
+    # Afficher le contenu HTML dans Streamlit
+    st.markdown(content, unsafe_allow_html=True)
 
 
 
