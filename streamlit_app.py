@@ -143,8 +143,8 @@ if st.session_state['page'] == 'Accueil':
         'Ville': ['Paris', 'Lyon', 'Marseille']
     })
     st.table(df)
-    # Afficher le contenu HTML dans Streamlit
-    st.markdown(content, unsafe_allow_html=True)
+
+    
 
 
 
@@ -234,6 +234,8 @@ elif st.session_state['page'] == 'Infos':
 
     # Description de la bibliothèque Streamlit
     st.subheader('À propos de Streamlit')
+    # Afficher le contenu HTML dans Streamlit
+    st.markdown(content, unsafe_allow_html=True)
     st.markdown("""
     Streamlit est une bibliothèque Python open-source utilisée pour créer des applications web en quelques lignes de code. 
     Elle est particulièrement utile pour les data scientists qui cherchent à transformer leurs notebooks en une application web interactive.
