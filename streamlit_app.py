@@ -4,7 +4,7 @@ from PIL import Image
 import io
 import pandas as pd
 import os
-
+from urllib.parse import urlparse, parse_qs
 
 # Méthode 1: Moyenne des composantes RGB
 def average_grayscale(image):
@@ -241,7 +241,15 @@ elif st.session_state['page'] == 'Infos':
         urls = content.strip().split("\n")
         
         for i, url in enumerate(urls):
-            # Afficher chaque URL dans un iframe
+            # Parse l'URL pour extraire les paramètres
+            parsed_url = urlparse(url)
+            params = parse_qs(parsed_url.query)
+            
+            # Trouver le nom à afficher
+            name = params.get("run", ["Inconnu"])[0]
+            
+            # Afficher le titre et l'URL dans un iframe
+            st.write(f"Nom: {name}")
             st.write(f"URL {i+1}: {url}")
             st.markdown(f'<iframe src="{url}" width="800" height="600"></iframe>', unsafe_allow_html=True)
 
