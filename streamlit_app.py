@@ -227,7 +227,15 @@ elif st.session_state['page'] == 'Compress':
 elif st.session_state['page'] == 'Infos':
     st.header('Page d\'Infos')
 
-    
+    # Fonction pour sauvegarder les URL dans un fichier texte
+    def sauvegarder_url(url):
+        with open("urls.txt", "a") as file:
+            file.write(url + "\n")
+
+    # Fonction pour lire les URL à partir du fichier texte
+    def lire_urls():
+        with open("urls.txt", "r") as file:
+            return file.readlines()
 
     # Fonction pour générer l'URL complète à partir de la saisie
     def generer_url(nom_utilisateur):
