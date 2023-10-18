@@ -297,7 +297,7 @@ elif st.session_state['page'] == 'Infos':
     # Énoncé d'exercice
     st.subheader('A faire')
     st.markdown("""
-    **Objectif**: Créer une application Streamlit simple qui permet aux utilisateurs de télécharger un fichier image et de le traiter
+    **Objectif**: Créer une application Streamlit simple qui permet aux utilisateurs de télécharger un fichier  et de le traiter
 
     **Exigences**:
     - Utiliser Streamlit pour l'interface utilisateur.
