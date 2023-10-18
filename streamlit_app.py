@@ -3,7 +3,7 @@ import streamlit as st
 from PIL import Image
 import io
 import pandas as pd
-
+import os
 
 
 # Méthode 1: Moyenne des composantes RGB
@@ -227,6 +227,9 @@ elif st.session_state['page'] == 'Compress':
 elif st.session_state['page'] == 'Infos':
     st.header('Page d\'Infos')
 
+    # Fichier pour stocker les URL
+    url_file_path = "urls.txt"
+
     # Charger le fichier contenant les URL
     uploaded_file = st.file_uploader("Choisir un fichier texte contenant des URL", type=["txt"])
 
@@ -241,3 +244,13 @@ elif st.session_state['page'] == 'Infos':
             # Afficher chaque URL dans un iframe
             st.write(f"URL {i+1}: {url}")
             st.markdown(f'<iframe src="{url}" width="800" height="600"></iframe>', unsafe_allow_html=True)
+
+    # Champ de saisie pour une nouvelle URL
+    new_url = st.text_input("Entrer une nouvelle URL:")
+
+    # Bouton pour ajouter la nouvelle URL
+    if st.button("Ajouter URL"):
+        # Ajouter la nouvelle URL au fichier
+        with open(url_file_path, "a") as f:
+            f.write(new_url + "\n")
+        st.success(f"URL ajoutée avec succès : {new_url}")
