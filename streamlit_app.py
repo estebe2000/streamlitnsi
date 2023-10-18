@@ -227,38 +227,17 @@ elif st.session_state['page'] == 'Compress':
 elif st.session_state['page'] == 'Infos':
     st.header('Page d\'Infos')
 
-    # Fonction pour sauvegarder les URL dans un fichier texte
-    def sauvegarder_url(url):
-        with open("urls.txt", "a") as file:
-            file.write(url + "\n")
+    # Charger le fichier contenant les URL
+    uploaded_file = st.file_uploader("Choisir un fichier texte contenant des URL", type=["txt"])
 
-    # Fonction pour lire les URL à partir du fichier texte
-    def lire_urls():
-        with open("urls.txt", "r") as file:
-            return file.readlines()
-
-    # Fonction pour générer l'URL complète à partir de la saisie
-    def generer_url(nom_utilisateur):
-        base_url = "https://kitao.github.io/pyxel/wasm/launcher/?run="
-        url_complete = base_url + nom_utilisateur + ".streamlitnsi.app"
-        return url_complete
-
-    # Affichage de la zone de saisie pour le nom d'utilisateur
-    nom_utilisateur = st.text_input("Nom d'utilisateur (par exemple, estebe2000)")
-
-    # Vérification si un nom d'utilisateur est soumis
-    if st.button("Générer l'URL"):
-        if nom_utilisateur:
-            url = generer_url(nom_utilisateur)
-            sauvegarder_url(url)
-            st.success("URL générée avec succès : " + url)
-
-    # Lecture des URLs à partir du fichier texte
-    urls = lire_urls()
-
-    # Affichage des pages via des iframes avec titre
-    for url in urls:
-        iframe = f'<iframe src="{url.strip()}" width="100%" height="600"></iframe>'
-        partie_url = url.split(".")[0].split("=")[-1]
-        st.markdown(f"## {partie_url}")
-        st.markdown(iframe, unsafe_allow_html=True)
+    if uploaded_file is not None:
+        # Lire le contenu du fichier
+        content = uploaded_file.read().decode("utf-8")
+        
+        # Séparer les URL par des sauts de ligne
+        urls = content.strip().split("\n")
+        
+        for i, url in enumerate(urls):
+            # Afficher chaque URL dans un iframe
+            st.write(f"URL {i+1}: {url}")
+            st.markdown(f'<iframe src="{url}" width="800" height="600"></iframe>', unsafe_allow_html=True)
