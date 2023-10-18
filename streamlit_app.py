@@ -117,7 +117,7 @@ with col4:
 # Affichage du contenu en fonction de la page sélectionnée
 if st.session_state['page'] == 'Accueil':
     st.header('Page d\'Accueil')
-    st.write('Bienvenue sur la page d\'accueil de mon site!.')
+    st.write('Bienvenue sur la page d\'accueil de mon site.')
 
     # Affichage d'un message
     st.subheader('Message du jour :')
