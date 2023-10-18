@@ -227,31 +227,30 @@ elif st.session_state['page'] == 'Compress':
 elif st.session_state['page'] == 'Infos':
     st.header('Page d\'Infos')
 
-    import streamlit as st
+    
 
-    # Fonction pour sauvegarder les URL dans un fichier texte
-    def sauvegarder_url(url):
-        with open("urls.txt", "a") as file:
-            file.write(url + "\n")
+    # Fonction pour générer l'URL complète à partir de la saisie
+    def generer_url(nom_utilisateur):
+        base_url = "https://kitao.github.io/pyxel/wasm/launcher/?run="
+        url_complete = base_url + nom_utilisateur + ".streamlitnsi.app"
+        return url_complete
 
-    # Fonction pour lire les URL à partir du fichier texte
-    def lire_urls():
-        with open("urls.txt", "r") as file:
-            return file.readlines()
+    # Affichage de la zone de saisie pour le nom d'utilisateur
+    nom_utilisateur = st.text_input("Nom d'utilisateur (par exemple, estebe2000)")
 
-    # Affichage de la zone de saisie pour ajouter une URL
-    nouvelle_url = st.text_input("Ajouter une nouvelle URL")
-
-    # Vérification si une nouvelle URL est soumise
-    if st.button("Ajouter"):
-        if nouvelle_url:
-            sauvegarder_url(nouvelle_url)
-            st.success("URL ajoutée avec succès.")
+    # Vérification si un nom d'utilisateur est soumis
+    if st.button("Générer l'URL"):
+        if nom_utilisateur:
+            url = generer_url(nom_utilisateur)
+            sauvegarder_url(url)
+            st.success("URL générée avec succès : " + url)
 
     # Lecture des URLs à partir du fichier texte
     urls = lire_urls()
 
-    # Affichage des pages via des iframes
+    # Affichage des pages via des iframes avec titre
     for url in urls:
         iframe = f'<iframe src="{url.strip()}" width="100%" height="600"></iframe>'
+        partie_url = url.split(".")[0].split("=")[-1]
+        st.markdown(f"## {partie_url}")
         st.markdown(iframe, unsafe_allow_html=True)
