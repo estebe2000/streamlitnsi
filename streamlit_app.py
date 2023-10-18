@@ -227,97 +227,31 @@ elif st.session_state['page'] == 'Compress':
 elif st.session_state['page'] == 'Infos':
     st.header('Page d\'Infos')
 
-    # Description de la bibliothèque Streamlit
-    st.subheader('À propos de Streamlit')
-    # URL de la page Web que vous souhaitez afficher
-    url = "https://kitao.github.io/pyxel/wasm/launcher/?run=estebe2000.streamlitnsi.app"
+    import streamlit as st
 
-    # Génération de l'élément iframe pour afficher la page Web
-    iframe = f'<iframe src="{url}" width="100%" height="600"></iframe>'
+    # Fonction pour sauvegarder les URL dans un fichier texte
+    def sauvegarder_url(url):
+        with open("urls.txt", "a") as file:
+            file.write(url + "\n")
 
-    # Afficher l'iframe dans Streamlit
-    st.markdown(iframe, unsafe_allow_html=True)
-    st.markdown("""
-    Streamlit est une bibliothèque Python open-source utilisée pour créer des applications web en quelques lignes de code. 
-    Elle est particulièrement utile pour les data scientists qui cherchent à transformer leurs notebooks en une application web interactive.
-    """)
-    
-    # Liste des rubriques et leur contenu
-    st.subheader('Liste des Rubriques')
-    st.markdown("""
-    - **Accueil**: Présentation du site, message du jour et quelques informations diverses.
-    - **Convert**: Permet de télécharger une image pour la convertir (inversion des couleurs, noir et blanc, etc.)
-    - **Compress**: Offre la possibilité de télécharger une image pour la compresser.
-    - **Infos**: Cette page, qui fournit des informations sur l'application et des conseils pour créer une application similaire.
-    """)
+    # Fonction pour lire les URL à partir du fichier texte
+    def lire_urls():
+        with open("urls.txt", "r") as file:
+            return file.readlines()
 
-    # Conseils pour les élèves
-    st.subheader('Conseils pour les élèves')
-    st.markdown("""
-    1. **Commencez Petit**: Ne vous attaquez pas directement à un projet complexe. Essayez d'abord de construire une petite application et évoluez à partir de là.
-    2. **Lisez la Documentation**: La documentation de Streamlit est très bien faite. N'hésitez pas à la consulter.
-    3. **Utilisez Streamlit Cloud**: Streamlit Cloud vous permet de déployer facilement vos applications. Vous pouvez également partager le lien de votre application avec vos amis et vos enseignants.
-    4. **Expérimentez**: N'hésitez pas à expérimenter avec les différentes widgets et options pour en apprendre plus.
-    """)
+    # Affichage de la zone de saisie pour ajouter une URL
+    nouvelle_url = st.text_input("Ajouter une nouvelle URL")
 
-    st.subheader('Liste de 10 Exercices à Difficulté Croissante')
+    # Vérification si une nouvelle URL est soumise
+    if st.button("Ajouter"):
+        if nouvelle_url:
+            sauvegarder_url(nouvelle_url)
+            st.success("URL ajoutée avec succès.")
 
-    st.markdown("""
-    ### Exercice 1: Hello, Streamlit!
-    - Affichez un simple message "Hello, Streamlit!" sur votre page.
+    # Lecture des URLs à partir du fichier texte
+    urls = lire_urls()
 
-    ### Exercice 2: Ajouter une Image
-    - Ajoutez une image à votre application Streamlit.
-
-    ### Exercice 3: Afficher un Tableau
-    - Utilisez Pandas pour créer un petit tableau de données et affichez-le.
-
-    ### Exercice 4: Navigation entre Rubriques
-    - Ajoutez une barre de navigation pour passer d'une rubrique à une autre (Accueil, Convert, etc.)
-
-    ### Exercice 5: Upload de Fichier Texte
-    - Permettez à l'utilisateur de téléverser un fichier texte et affichez son contenu.
-
-    ### Exercice 6: Afficher les Métadonnées d'une Image
-    - Après le téléversement d'une image, affichez des informations telles que les dimensions et la taille du fichier.
-
-    ### Exercice 7: Convertir une Image en Noir et Blanc
-    - Ajoutez une option pour convertir une image en noir et blanc.
-
-    ### Exercice 8: Inverser les Couleurs d'une Image
-    - Ajoutez une option pour inverser les couleurs de l'image.
-
-    ### Exercice 9: Téléchargement d'Image
-    - Ajoutez un bouton pour permettre le téléchargement de l'image modifiée.
-
-    ### Exercice 10: Déploiement sur Streamlit Cloud
-    - Déployez votre application sur Streamlit Cloud et partagez le lien.
-
-    """)
-
-
-
-    # Énoncé d'exercice
-    st.subheader('A faire')
-    st.markdown("""
-    **Objectif**: Créer une application Streamlit simple qui permet aux utilisateurs de télécharger un fichier  et de le traiter
-
-    **Exigences**:
-    - Utiliser Streamlit pour l'interface utilisateur.
-    - Le fichier texte doit être téléchargé via l'interface utilisateur.
-    - Le nombre de mots doit être affiché sur la même page.
-
-    **Étapes suggérées**:
-    1. Installez Streamlit si ce n'est pas déjà fait.
-    2. Créez un nouveau fichier Python.
-    3. Utilisez `st.file_uploader` pour permettre le téléchargement du fichier.
-    4. Utilisez Python pour compter le nombre de mots dans le fichier téléchargé.
-    5. Affichez le résultat à l'aide de `st.write` ou `st.markdown`.
-    
-    **Pour aller plus loin**: Déployez votre application sur [Streamlit Cloud](https://streamlit.io/cloud) , on utilise [poe.com](http://poe.com).
-    """)
-
-    # Embellissement avec des emojis ou d'autres éléments visuels
-    st.markdown("---")
-    st.markdown("🌟 **Amusez-vous bien et bonne programmation !** 🌟")
-
+    # Affichage des pages via des iframes
+    for url in urls:
+        iframe = f'<iframe src="{url.strip()}" width="100%" height="600"></iframe>'
+        st.markdown(iframe, unsafe_allow_html=True)
