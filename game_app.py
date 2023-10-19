@@ -2,12 +2,13 @@ import streamlit as st
 
 st.title("Exemple d'iframes dans Streamlit")
 
-urls = [
-    "https://kitao.github.io/pyxel/wasm/launcher/?run=estebe2000.streamlitnsi.app",
-    # Ajoutez d'autres URLs ici
-]
+# Lire les URLs à partir du fichier texte
+with open("urls.txt", "r") as file:
+    urls = file.readlines()
 
 for url in urls:
+    url = url.strip()  # Supprimer les espaces et les sauts de ligne
+
     a = url.split("=")
     b = a[1].split(".")
     titre = b[0]
