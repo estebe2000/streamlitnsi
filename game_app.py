@@ -1,16 +1,19 @@
 import streamlit as st
-import requests
 
-st.title("Exemple d'iframe dans Streamlit")
+st.title("Exemple d'iframes dans Streamlit")
 
-url = "https://kitao.github.io/pyxel/wasm/launcher/?run=estebe2000.streamlitnsi.app"
+urls = [
+    "https://kitao.github.io/pyxel/wasm/launcher/?run=estebe2000.streamlitnsi.app",
+    # Ajoutez d'autres URLs ici
+]
 
-a = url.split("=")
-b = a[1].split(".")
-titre = b[0]
+for url in urls:
+    a = url.split("=")
+    b = a[1].split(".")
+    titre = b[0]
 
-# Afficher le titre
-st.subheader(f"Titre : {titre}")
+    # Afficher le titre
+    st.subheader(f"Titre : {titre}")
 
-# Afficher l'iframe
-st.markdown(f'<iframe src="{url}" width="800" height="600"></iframe>', unsafe_allow_html=True)
+    # Afficher l'iframe
+    st.markdown(f'<iframe src="{url}" width="800" height="600"></iframe>', unsafe_allow_html=True)
