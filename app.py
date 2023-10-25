@@ -1,56 +1,70 @@
 import pyxel
+import random
 
-
-# taille de la fenetre 128x128 pixels
-# ne pas modifier
-pyxel.init(128, 128, title="Nuit du c0de")
-
-# position initiale du vaisseau
-# (origine des positions : coin haut gauche)
-vaisseau_x = 60
-vaisseau_y = 60
-vitesse = 1
-
-# couleur du vaisseau
-vaisseau_couleur = 1
-
-def vaisseau_deplacement(x, y):
-    """déplacement avec les touches de directions"""
-
-    if pyxel.btn(pyxel.KEY_RIGHT):
-        if (x < 120):
-            x = x + vitesse
-    if pyxel.btn(pyxel.KEY_LEFT):
-        if (x > 0):
-            x = x - vitesse
-    if pyxel.btn(pyxel.KEY_DOWN):
-        if (y < 120):
-            y = y + vitesse
-    if pyxel.btn(pyxel.KEY_UP):
-        if (y > 0):
-            y = y - vitesse
-    return x, y
+# Initialisation des variables
+x, y = 50, 50
+SIZE = 16  # Taille de sprite dans Pyxel
+SPEED = 2
+WIDTH, HEIGHT = 160, 120
+win_count, lose_count = 0, 0
+message_time = 0
+game_state = "playing"
+win = False
 
 def update():
-    """mise à jour des variables (30 fois par seconde)"""
-    global vaisseau_x, vaisseau_y, vaisseau_couleur
+    global x, y, game_state, win_count, lose_count, message_time, win
 
-    # mise à jour de la position du vaisseau
-    vaisseau_x, vaisseau_y = vaisseau_deplacement(vaisseau_x, vaisseau_y)
+    # Quitter le jeu
+    if pyxel.btnp(pyxel.KEY_Q):
+        pyxel.quit()
 
-    # vérifier si la touche d'espace est enfoncée
+    # Mouvement
+    x += (pyxel.btn(pyxel.KEY_RIGHT) - pyxel.btn(pyxel.KEY_LEFT)) * SPEED
+    y += (pyxel.btn(pyxel.KEY_DOWN) - pyxel.btn(pyxel.KEY_UP)) * SPEED
+
+    x = max(0, min(WIDTH - SIZE, x))
+    y = max(0, min(HEIGHT - SIZE, y))
+
+    # Tirage au sort
     if pyxel.btnp(pyxel.KEY_SPACE):
-        # changer la couleur du carré
-        if vaisseau_couleur == 1:
-            vaisseau_couleur = 2
-        else:
-            vaisseau_couleur = 1
+        result = random.choice(['pile', 'face'])
+        handle_random_choice(result)
+
+def handle_random_choice(result):
+    global win_count, lose_count, message_time, win
+
+    if (result == 'pile' and x < WIDTH // 2) or (result == 'face' and x > WIDTH // 2):
+        win = True
+        win_count += 1
+    else:
+        win = False
+        lose_count += 1
+
+    message_time = pyxel.frame_count
 
 def draw():
-    """création des objets (30 fois par seconde)"""
-    pyxel.cls(0)  # vide la fenetre
+    pyxel.cls(0)
 
-    # vaisseau (carre 8x8)
-    pyxel.rect(vaisseau_x, vaisseau_y, 8, 8, vaisseau_couleur)
+    # Dessiner les pièces (cercles)
+    pyxel.circ(WIDTH // 4, HEIGHT // 2, 20, 8)
+    pyxel.circ(3 * WIDTH // 4, HEIGHT // 2, 20, 8)
 
+    # Ajouter "P" et "F" dans les cercles
+    pyxel.text(WIDTH // 4 - 3, HEIGHT // 2 - 3, "P", 7)
+    pyxel.text(3 * WIDTH // 4 - 3, HEIGHT // 2 - 3, "F", 7)
+
+    # Dessiner le joueur (carré)
+    pyxel.rect(x, y, SIZE, SIZE, 12)
+
+    # Afficher le nombre de victoires et de défaites
+    pyxel.text(5, 5, f"Victoires : {win_count}", 7)
+    pyxel.text(5, 15, f"Defaites : {lose_count}", 7)
+
+    # Afficher un message pour la victoire ou la défaite
+    if pyxel.frame_count - message_time < 60:  # 60 frames == 1 seconde dans Pyxel
+        msg = "Victoire !" if win else "Défaite !"
+        pyxel.text(WIDTH//2 - 20, HEIGHT//2, msg, 8 if win else 6)
+
+# Initialisation de Pyxel
+pyxel.init(WIDTH, HEIGHT)
 pyxel.run(update, draw)
