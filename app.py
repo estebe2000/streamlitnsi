@@ -62,7 +62,7 @@ def draw():
 
     # Afficher un message pour la victoire ou la défaite
     if pyxel.frame_count - message_time < 60:  # 60 frames == 1 seconde dans Pyxel
-        msg = "Victoire !" if win else "Défaite !"
+        msg = "Victoire !" if win else "Defaite !"
         pyxel.text(WIDTH//2 - 20, HEIGHT//2, msg, 8 if win else 6)
 
 # Initialisation de Pyxel
