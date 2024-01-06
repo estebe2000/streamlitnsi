@@ -62,7 +62,7 @@ projects = {
 }
 
 # Sélection du projet à afficher
-selected_project = st.sidebar.selectbox("Sélectionnez un projet :", list(projects.keys()))
+selected_project = st.sidebar.selectbox("Projet :", list(projects.keys()))
 
 # Appel de la fonction correspondant au projet sélectionné
 if selected_project in projects:
