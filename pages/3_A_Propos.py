@@ -21,7 +21,7 @@ col1, col2 = st.columns([1, 2])
 # Colonne de l'image et des informations de base
 with col1:
     # Image du créateur (remplacez l'URL par une image pertinente)
-    st.image("https://thumbs.dreamstime.com/b/keyboard-smashed-angry-user-destroyed-which-will-never-work-again-80297247.jpg", width=200, caption="HSKeyboard")
+    st.image("https://1000logos.net/wp-content/uploads/2020/09/Konami-Logo-1986-500x313.png", width=200, caption="HSKeyboard")
     
     # Informations de base
     st.markdown("""
@@ -47,5 +47,41 @@ with col2:
     """, unsafe_allow_html=True)
 
 
-# Ajouter un pied de page ou des informations de contact supplémentaires ici si nécessaire
+# Configuration de la session state pour le Code Konami
+if 'konami_sequence' not in st.session_state:
+    st.session_state.konami_sequence = []
+
+# Définition de la séquence du Code Konami
+konami_code = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a']
+
+# Fonction pour vérifier la séquence du Code Konami
+def check_konami(input):
+    st.session_state.konami_sequence.append(input)
+    # Vérifier si la séquence correspond au Code Konami
+    if st.session_state.konami_sequence[-len(konami_code):] == konami_code:
+        st.balloons()
+        st.write("May the Force be with you")
+        st.session_state.konami_sequence = []  # Réinitialiser la séquence
+
+# Widgets pour saisir le Code Konami
+st.write("???")
+cols = st.columns(5)
+with cols[0]:
+    st.button("↑", key="up1", on_click=check_konami, args=('up',))
+    st.button("↓", key="down1", on_click=check_konami, args=('down',))
+with cols[1]:
+    st.button("↑", key="up2", on_click=check_konami, args=('up',))
+    st.button("↓", key="down2", on_click=check_konami, args=('down',))
+with cols[2]:
+    st.button("←", key="left", on_click=check_konami, args=('left',))
+    st.button("→", key="right", on_click=check_konami, args=('right',))
+with cols[3]:
+    st.button("←", key="left2", on_click=check_konami, args=('left',))
+    st.button("→", key="right2", on_click=check_konami, args=('right',))
+with cols[4]:
+    st.button("B", on_click=check_konami, args=('b',))
+    st.button("A", on_click=check_konami, args=('a',))
+
+# Note: Les boutons sont placés pour simuler visuellement la disposition du Code Konami,
+# mais l'utilisateur doit cliquer dans l'ordre correct.
 
